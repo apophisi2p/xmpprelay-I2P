@@ -14,8 +14,8 @@ import (
 //    "encoding/xml"
 )
 
-var localAddr *string = flag.String("l", "localhost:9999", "local address")
-var remoteAddr *string = flag.String("r", "localhost:80", "remote address")
+var localAddr *string = flag.String("l", "127.0.0.1:9626", "local address")
+var remoteAddr *string = flag.String("r", "127.0.0.1:4447", "remote address")
 
 
 
@@ -34,38 +34,11 @@ func main() {
             log.Println("error accepting connection", err)
             continue
         }
-//        defer conn.Close()
-/// begin lalala
-//        scanner := bufio.NewScanner(conn)
-//        for scanner.Scan() {
-//            message = scanner.Text()
-//            fmt.Println("Message Received:", message)
-//        }
-//        fmt.Printf("END Message \n")
-////
-//        size := 1
-//        buff := make([]byte, 256)
-//        reader := bufio.NewReader(conn)
-//        for {
-//            size, err := reader.ReadByte()
-//            if err != nil {
-//                return
-//            }
-//
-//        }
-//
-//        fmt.Printf("size: %x\n", size)
-//        fmt.Printf("Received: %x\n", buff[:int(size)])
-//        fmt.Fprintf(conn, message)
-
-
 
 
 
         go func() {
             defer conn.Close()
-
-///            _, _ = io.Copy(os.Stdout, conn)
 
             buff := make([]byte, 1024)
             n, err := conn.Read(buff[0:])
@@ -79,10 +52,6 @@ func main() {
 
             log.Println("BEGIN Captured Request\n", request)
             log.Println("END Captured Request\n")
-
-
-/////            var buf bytes.Buffer
-/////            io.Copy(&buf, conn)
 
 /////////////////////////////////
 
@@ -106,10 +75,7 @@ func main() {
             }
             defer conn2.Close()
 
-//            conn2.Write(buf.Bytes())
             conn2.Write(buff[0:n])
-//            conn2.Write([]byte(message))
-//            fmt.Fprintf(conn2, message)
 
             closer := make(chan struct{}, 2)
             go copy(closer, conn2, conn)
@@ -121,7 +87,6 @@ func main() {
 }
 
 func copy(closer chan struct{}, dst io.Writer, src io.Reader) {
-//    copybuf := make([]byte, 1024)
     io.Copy(os.Stdout, io.TeeReader(src, dst))
 ///    _, _ = io.Copy(dst, src)
     closer <- struct{}{} // connection is closed, send signal to stop proxy
