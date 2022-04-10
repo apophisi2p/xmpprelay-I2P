@@ -232,8 +232,6 @@ modules:
     ## Think twice before enabling registration from any
     ## address. See the Jabber SPAM Manifesto for details:
     ## https://github.com/ge0rg/jabber-spam-fighting-manifesto
-    #registration_watchers: 
-    #  - "admin@2dpg43zlfophx5jo4xeqc6cx3zm4x3tfdoinbfuzychf5lwn3dhq.b32.i2p"
     ip_access: trusted_network
   mod_roster:
     versioning: true
