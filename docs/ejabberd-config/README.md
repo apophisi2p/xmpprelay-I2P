@@ -34,18 +34,17 @@ nohup xmpprelay -l 127.0.0.1:9626 -r 127.0.0.1:4447 &
 
 * Install and configure dnsmasq service to "trick" XMPP DNS resolution for I2P domains.
 Basically, sets all DNS resolution requests to return 127.0.0.1. (DNS record resolution is a big part of XMPP specs and operations):
-    1. Modify your /etc/resolv.conf to look similar to (add nameserver 127.0.0.1 to be the FIRST):
-```
-nameserver 127.0.0.1
-nameserver *DNS SERVER1*
-nameserver *DNS SERVER2*
-***
-```
-    2. Modify you /etc/dnsmasq.conf to have the following directive at the END of the file:
-```
-address=/i2p/127.0.0.1
-```
-    3. Restart dnsmasq service and test to see that .i2p domains resolve to 127.0.0.1
+	- Modify your /etc/resolv.conf to look similar to (add nameserver 127.0.0.1 to be the FIRST):
+	```
+	nameserver 127.0.0.1
+	nameserver DNS SERVER1
+	nameserver DNS SERVER2
+	```
+	- Modify you /etc/dnsmasq.conf to have the following directive at the END of the file:
+	```
+	address=/i2p/127.0.0.1
+	```
+	- Restart dnsmasq service and test to see that .i2p domains resolve to 127.0.0.1
 
 * Your ejabberd XMPP server is FULLY FEDERATED now. All OPTIONS such as group chats, media transfers and others - are fully and transparently federated on I2P.
 
