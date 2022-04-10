@@ -9,13 +9,10 @@ import (
     "os"
     "golang.org/x/net/proxy"
     "regexp"
-//    "bufio"
-//    "bytes"
-//    "encoding/xml"
 )
 
-var localAddr *string = flag.String("l", "127.0.0.1:9626", "local address")
-var remoteAddr *string = flag.String("r", "127.0.0.1:4447", "remote address")
+var localAddr *string = flag.String("l", "127.0.0.1:9626", "local XMPP outbound address")
+var remoteAddr *string = flag.String("r", "127.0.0.1:4447", "remote I2P proxy address")
 
 
 
@@ -53,7 +50,7 @@ func main() {
             log.Println("BEGIN Captured Request\n", request)
             log.Println("END Captured Request\n")
 
-/////////////////////////////////
+///////////////////////////////// See no reason to define a separate function for this
 
             xmppReg := regexp.MustCompile(`to='\S+.i2p'`)
             match := xmppReg.FindString(request)
@@ -64,7 +61,7 @@ func main() {
             log.Println("Got Domain", domainTo)
 
 
-/////////////////////////////////
+///////////////////////////////// 
 
 
             proxyconn, _ := proxy.SOCKS5("tcp", *remoteAddr, nil, proxy.Direct)
@@ -87,7 +84,12 @@ func main() {
 }
 
 func copy(closer chan struct{}, dst io.Writer, src io.Reader) {
+/// This is ONLY needed to DEBUG. Sends stanzas to Stdout. 
     io.Copy(os.Stdout, io.TeeReader(src, dst))
+
+/// This is for Performance. NO DEBUG Output. Will incorporate into LOGGING system
 ///    _, _ = io.Copy(dst, src)
+
+
     closer <- struct{}{} // connection is closed, send signal to stop proxy
 }
