@@ -41,11 +41,11 @@ Basically, sets all DNS resolution requests to return 127.0.0.1. (DNS record res
 		nameserver 127.0.0.1
 		nameserver DNS SERVER1
 		nameserver DNS SERVER2
-		```
+
 	- Modify you /etc/dnsmasq.conf to have the following directive at the END of the file:
 		```
 		address=/i2p/127.0.0.1
-		```
+
 	- Restart dnsmasq service and test to see that .i2p domains resolve to 127.0.0.1
 
 * Your ejabberd XMPP server is FULLY FEDERATED now. All OPTIONS such as group chats, media transfers and others - are fully and transparently federated on I2P.
